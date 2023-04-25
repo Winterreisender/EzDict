@@ -3,13 +3,13 @@ import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
 function App() {
-  const [description, setDescription] = useState("");
+  const [queryResults, setQueryResults] = useState([]);
   const [queryWord, setQueryWord] = useState("");
 
   async function queryDict() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     let resp = await invoke("query", { word: queryWord });
-    setDescription(resp.descriptions);
+    setQueryResults(resp);
   }
 
   return (
@@ -32,7 +32,11 @@ function App() {
       </div>
       
       <hr style={{width: "50%"}}></hr>
-      <p>{description}</p>
+      {
+        queryResults.map((it) => <div>
+          <p>{it.descriptions}</p>
+        </div>)
+      }
     </div>
   );
 }
